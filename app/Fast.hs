@@ -1,4 +1,5 @@
 {-# LANGUAGE BangPatterns #-}
+module Fast where
 -- import Data.Array.Unboxed
 -- import Data.Ix
 import Data.Int
