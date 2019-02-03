@@ -7,6 +7,7 @@ import qualified MatMul
 import qualified MatMulUnboxed
 import qualified PolyMul
 import qualified PolyMulUnboxed
+import qualified FastDoubling
 
 main = do
   args <- getArgs
@@ -19,4 +20,5 @@ main = do
     "MatMulUnboxed":_ -> MatMulUnboxed.main
     "PolyMul":_ -> PolyMul.main
     "PolyMulUnboxed":_ -> PolyMulUnboxed.main
-    _ -> hPutStrLn stderr $ progName ++ " InputOutput|List|NaiveIteration|MatMul|MatMulUnboxed|PolyMul|PolyMulUnboxed"
+    "FastDoubling":_ -> FastDoubling.main
+    _ -> hPutStrLn stderr $ progName ++ " InputOutput|List|NaiveIteration|MatMul|MatMulUnboxed|PolyMul|PolyMulUnboxed|FastDoubling"

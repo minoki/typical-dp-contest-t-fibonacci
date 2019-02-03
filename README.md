@@ -41,3 +41,5 @@ Available methods are:
     - Uses polynomial division with remainder.
 - `PolyMulUnboxed`
     - `PolyMul` with unboxed vectors.
+- `FastDoubling`
+    - "Fast doubling" method.
