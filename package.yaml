@@ -24,9 +24,6 @@ dependencies:
 - array
 - vector
 
-library:
-  source-dirs: src
-
 executables:
   atcoder-fib-exe:
     main:                Main.hs
@@ -35,8 +32,6 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    dependencies:
-    - atcoder-fib
 
 tests:
   atcoder-fib-test:
@@ -46,5 +41,3 @@ tests:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    dependencies:
-    - atcoder-fib
