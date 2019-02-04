@@ -9,9 +9,9 @@ import Data.Int (Int64)
 modulo = 1000000007 :: Int64
 newtype N = N { getModuloN :: Int64 } deriving (Eq)
 instance Num N where
-  N x + N y = N ((x + y) `mod` modulo)
+  N x + N y = N ((x + y) `rem` modulo)
   N x - N y = N ((x - y) `mod` modulo)
-  N x * N y = N (x * y `mod` modulo)
+  N x * N y = N (x * y `rem` modulo)
   fromInteger n = N (fromInteger (n `mod` fromIntegral modulo))
   abs = undefined
   signum = undefined

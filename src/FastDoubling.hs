@@ -5,8 +5,8 @@ import qualified Data.Vector.Unboxed as V
 import Data.List (foldl',tails)
 
 modulo = 1000000007 :: Int64
-addMod !x !y = (x + y) `mod` modulo
-mulMod !x !y = (x * y) `mod` modulo
+addMod !x !y = (x + y) `rem` modulo
+mulMod !x !y = (x * y) `rem` modulo
 sumMod = foldl' addMod 0
 
 -- 多項式は

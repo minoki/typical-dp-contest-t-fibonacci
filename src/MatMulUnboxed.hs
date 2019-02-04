@@ -8,8 +8,8 @@ import Data.List (foldl')
 ---
 
 modulo = 1000000007 :: Int64
-addMod x y = (x + y) `mod` modulo
-mulMod x y = (x * y) `mod` modulo
+addMod x y = (x + y) `rem` modulo
+mulMod x y = (x * y) `rem` modulo
 sumMod = foldl' addMod 0
 
 ---
