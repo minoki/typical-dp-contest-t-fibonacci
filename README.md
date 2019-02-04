@@ -8,6 +8,8 @@ $ cd typical-dp-contest-t-fibonacci
 $ stack build
 ```
 
+Note: Uncomment `- -fllvm` in package.yaml if you have LLVM available.
+
 Print the sequence:
 
 ```sh
