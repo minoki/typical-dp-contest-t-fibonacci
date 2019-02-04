@@ -1,30 +1,40 @@
 {-# LANGUAGE BangPatterns #-}
-module FastDoubling where
+module FastDoublingMut where
 import Data.Int (Int64)
 import qualified Data.Vector.Unboxed as V
+import qualified Data.Vector.Unboxed.Mutable as VM
 import Data.List (foldl',tails)
+import Control.Monad (forM_,when)
+import Control.Monad.ST (ST)
 
 modulo = 1000000007 :: Int64
 addMod !x !y = (x + y) `mod` modulo
 mulMod !x !y = (x * y) `mod` modulo
-sumMod = foldl' addMod 0
+sumMod xs = foldl' addMod 0 xs
 
 -- 多項式は
 --   V.fromList [a,b,c,...,z] = a + b * X + c * X^2 + ... + z * X^(k-1)
 -- により表す。
 
 -- 多項式を X^k - X^(k-1) - ... - X - 1 で割った余りを返す。
-reduce :: Int -> V.Vector Int64 -> V.Vector Int64
-reduce !k !v | V.last v == 0 = V.init v
-             | V.length v <= k = v
-             | otherwise = let b = V.last v
-                               l = V.length v
-                           in reduce k (V.imap (\i a -> if i >= l - k - 1 then a `addMod` b else a) (V.init v))
+reduceM :: Int -> VM.MVector s Int64 -> ST s (VM.MVector s Int64)
+reduceM !k !v = loop (VM.length v)
+  where loop !l | l <= k = return (VM.take l v)
+                | otherwise = do b <- VM.read v (l - 1)
+                                 forM_ [l - k - 1 .. l - 2] $ \i -> do
+                                   VM.modify v (addMod b) i
+                                 loop (l - 1)
 
 -- 多項式の積を X^k - X^(k-1) - ... - X - 1 で割った余りを返す。
 mulP :: Int -> V.Vector Int64 -> V.Vector Int64 -> V.Vector Int64
-mulP !k !v !w = reduce k $ V.generate (V.length v + V.length w - 1) $
-                \i -> sumMod [(v V.! (i-j)) `mulMod` (w V.! j) | j <- [0..V.length w-1], j <= i, j > i - V.length v]
+mulP !k !v !w = {- V.force $ -} V.create $ do
+  let !vl = V.length v
+      !wl = V.length w
+  s <- VM.new (vl + wl - 1)
+  forM_ [0 .. vl + wl - 2] $ \i -> do
+    let !x = sumMod [(v V.! (i-j)) `mulMod` (w V.! j) | j <- [max 0 (i - vl + 1) .. min (wl - 1) i]]
+    VM.write s i x
+  reduceM k s
 
 -- 多項式に X をかけたものを X^k - X^(k-1) - ... - X - 1 で割った余りを返す。
 mulByX :: Int -> V.Vector Int64 -> V.Vector Int64

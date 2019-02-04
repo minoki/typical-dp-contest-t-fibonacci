@@ -43,3 +43,5 @@ Available methods are:
     - `PolyMul` with unboxed vectors.
 - `FastDoubling`
     - "Fast doubling" method.
+- `FastDoublingMut`
+    - "Fast doubling" method with mutable vectors.
