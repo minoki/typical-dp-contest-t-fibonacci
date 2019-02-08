@@ -47,3 +47,5 @@ Available methods are:
     - "Fast doubling" method.
 - `FastDoublingMut`
     - "Fast doubling" method with mutable vectors.
+- `Karatsuba`
+    - `FastDoublingMut` with Karatsuba multiplication.
